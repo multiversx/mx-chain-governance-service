@@ -6,6 +6,7 @@ import { VmQueryArguments } from '@libs/common/vm-query/dtos/vm-query.arguments'
 import { GovernanceConfig } from '@libs/entities/entities/governance.config';
 import { GovernanceProposal } from '@libs/entities/entities/governance.proposal';
 import { AddressUtils, BinaryUtils } from '@multiversx/sdk-nestjs-common';
+import { GovernanceDelegatedVoteInfo } from '@libs/entities/entities/governance.delegated.vote.info';
 
 @Injectable()
 export class ViewService {
@@ -100,17 +101,13 @@ export class ViewService {
     );
   }
 
-  async getDelegatedVotingInfoRaw(address: string, delegatedAddress: string): Promise<string> {
+  async getDelegatedVotingInfoRaw(address: string, delegatedAddress: string): Promise<GovernanceDelegatedVoteInfo> {
     const vmQueryResponse = await this.vmQueryService.query(new VmQueryArguments({
       contractAddress: this.commonConfigService.config.governance.contractAddress,
       functionName: 'viewDelegatedVoteInfo',
       args: [AddressUtils.bech32Decode(address), AddressUtils.bech32Decode(delegatedAddress)],
     }));
 
-    const returnData = vmQueryResponse?.data?.data?.returnData;
-    if (!Array.isArray(returnData) || returnData.length === 0) {
-      return '0';
-    }
-    return BinaryUtils.base64Decode(returnData[0]);
+    return GovernanceDelegatedVoteInfo.fromVmQueryResponse(vmQueryResponse);
   }
 }
