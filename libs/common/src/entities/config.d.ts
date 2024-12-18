@@ -20,9 +20,13 @@ export interface Config {
   };
   libs: {
     common: {
+      governance: {
+        contractAddress: string;
+      };
       network: "devnet" | "testnet" | "mainnet";
       urls: {
         api: string;
+        gateway: string;
       };
       database: {
         host: string;
@@ -35,6 +39,15 @@ export interface Config {
       redis: {
         host: string;
         port: number;
+      };
+      features: {
+        keepAliveAgent: {
+          enabled: boolean;
+        };
+      };
+      keepAliveTimeout: {
+        downstream: number;
+        upstream: number;
       };
       nativeAuth: {
         maxExpirySeconds: number;

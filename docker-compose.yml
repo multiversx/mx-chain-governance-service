@@ -6,16 +6,6 @@ services:
     ports:
       - "6379:6379"
 
-  database:
-    image: "mysql:latest"
-    ports:
-      - "3306:3306"
-
-  mongodb:
-    image: mongo:latest
-    ports:
-      - 27017:27017
-
   prometheus:
     image: prom/prometheus:latest
     command: '--config.file=/etc/prometheus/prometheus.yml'
@@ -25,6 +15,8 @@ services:
       - 9090:9090
     extra_hosts:
       - host.docker.internal:host-gateway
+    profiles:
+      - with-monitoring
   
   grafana:
     depends_on:
@@ -34,3 +26,5 @@ services:
       - ./monitoring/grafana:/etc/grafana/provisioning
     ports:
       - 3010:3000
+    profiles:
+      - with-monitoring

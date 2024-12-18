@@ -13,11 +13,14 @@ apps:
     maxLookBehind: integer
 libs:
   common:
+    governance:
+      contractAddress: string
     network:
       type: string
       enum: [devnet, testnet, mainnet]
     urls:
       api: string
+      gateway: string
     database:
       host: string
       port: integer
@@ -34,6 +37,12 @@ libs:
     redis:
       host: string
       port: integer
+    features:
+      keepAliveAgent:
+        enabled: boolean
+    keepAliveTimeout:
+      downstream: integer
+      upstream: integer
     nativeAuth:
       maxExpirySeconds:
         type: integer

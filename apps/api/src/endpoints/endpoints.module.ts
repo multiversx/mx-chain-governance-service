@@ -4,6 +4,7 @@ import { AuthModule } from "./auth/auth.module";
 import { TokenModule } from "./token/token.module";
 import { UserModule } from "./user/user.module";
 import { ExampleModule } from "./example/example.module";
+import { ViewModule } from './view/view.module';
 
 @Module({
   imports: [
@@ -11,9 +12,11 @@ import { ExampleModule } from "./example/example.module";
     TokenModule,
     UserModule,
     ExampleModule,
+    ViewModule,
   ],
   providers: [
     DynamicModuleUtils.getNestJsApiConfigService(),
   ],
 })
+
 export class EndpointsModule { }

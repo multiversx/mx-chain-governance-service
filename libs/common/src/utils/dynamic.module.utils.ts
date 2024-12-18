@@ -3,6 +3,7 @@ import { CacheModule, RedisCacheModuleOptions } from "@multiversx/sdk-nestjs-cac
 import { DynamicModule, Provider } from "@nestjs/common";
 import { ClientOptions, ClientProxyFactory, Transport } from "@nestjs/microservices";
 import { CommonConfigModule, CommonConfigService, SdkNestjsConfigServiceImpl } from "../config";
+import { ApiModule, ApiModuleOptions } from '@multiversx/sdk-nestjs-http';
 
 export class DynamicModuleUtils {
   static getCachingModule(): DynamicModule {
@@ -45,5 +46,19 @@ export class DynamicModuleUtils {
       },
       inject: [CommonConfigService],
     };
+  }
+
+  static getApiModule(): DynamicModule {
+    return ApiModule.forRootAsync({
+      imports: [CommonConfigModule],
+      useFactory: (commonConfigService: CommonConfigService) =>
+        new ApiModuleOptions({
+          axiosTimeout: commonConfigService.config.keepAliveTimeout.downstream ?? 61000,
+          rateLimiterSecret: commonConfigService.config.rateLimiterSecret,
+          serverTimeout: commonConfigService.config.keepAliveTimeout.downstream ?? 60000,
+          useKeepAliveAgent: commonConfigService.config.features.keepAliveAgent.enabled,
+        }),
+      inject: [CommonConfigService],
+    });
   }
 }
