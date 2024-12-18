@@ -4,13 +4,6 @@ apps:
     port: integer
     privatePort: integer
     useCachingInterceptor: boolean
-  cacheWarmer:
-    port: integer
-  queueWorker:
-    port: integer
-  transactionsProcessor:
-    port: integer
-    maxLookBehind: integer
 libs:
   common:
     governance:
@@ -21,19 +14,6 @@ libs:
     urls:
       api: string
       gateway: string
-    database:
-      host: string
-      port: integer
-      username:
-        type: string
-        required: false
-      password:
-        type: string
-        required: false
-      name: string
-      tlsAllowInvalidCertificates:
-        type: boolean
-        default: false
     redis:
       host: string
       port: integer
