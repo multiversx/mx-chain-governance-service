@@ -7,34 +7,29 @@ export interface Config {
       privatePort: number;
       useCachingInterceptor: boolean;
     };
-    cacheWarmer: {
-      port: number;
-    };
-    queueWorker: {
-      port: number;
-    };
-    transactionsProcessor: {
-      port: number;
-      maxLookBehind: number;
-    };
   };
   libs: {
     common: {
+      governance: {
+        contractAddress: string;
+      };
       network: "devnet" | "testnet" | "mainnet";
       urls: {
         api: string;
-      };
-      database: {
-        host: string;
-        port: number;
-        username?: string;
-        password?: string;
-        name: string;
-        tlsAllowInvalidCertificates: boolean;
+        gateway: string;
       };
       redis: {
         host: string;
         port: number;
+      };
+      features: {
+        keepAliveAgent: {
+          enabled: boolean;
+        };
+      };
+      keepAliveTimeout: {
+        downstream: number;
+        upstream: number;
       };
       nativeAuth: {
         maxExpirySeconds: number;

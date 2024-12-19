@@ -3,28 +3,23 @@ apps:
     port: 3000
     privatePort: 4000
     useCachingInterceptor: true
-  cacheWarmer:
-    port: 4001
-  queueWorker:
-    port: 4002
-  transactionsProcessor:
-    port: 4003
-    maxLookBehind: 100
 libs:
   common:
+    governance:
+      contractAddress: 'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrlllsrujgla'
     network: ${NETWORK}
     urls:
       api: ${API_URL}
-    database:
-      host: 'localhost'
-      port: 27017
-      # username: 'root'
-      # password: 'root'
-      name: 'example'
-      tlsAllowInvalidCertificates: true
+      gateway: ${GATEWAY_URL}
     redis:
       host: '127.0.0.1'
       port: 6379
+    features:
+      keepAliveAgent:
+        enabled: true
+    keepAliveTimeout:
+      downstream: 61000
+      upstream: 60000
     nativeAuth:
       # maxExpirySeconds:
       acceptedOrigins:
