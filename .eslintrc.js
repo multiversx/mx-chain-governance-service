@@ -44,6 +44,10 @@ module.exports = {
         pattern: 'libs/common'
       },
       {
+        type: 'libs/pipes',
+        pattern: 'libs/pipes'
+      },
+      {
         type: 'libs/database',
         pattern: 'libs/database'
       },
@@ -103,6 +107,10 @@ module.exports = {
         },
         {
           from: 'libs/common',
+          allow: ['libs/entities']
+        },
+        {
+          from: 'libs/pipes',
           allow: ['libs/entities']
         },
         {
