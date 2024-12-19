@@ -21,8 +21,8 @@ export class GovernanceDelegatedVoteInfo {
 
   static fromVmQueryResponse(queryResponse: VmQueryResponse): GovernanceDelegatedVoteInfo {
     const returnData = queryResponse?.data?.data?.returnData;
-    if (!returnData || !Array.isArray(returnData) || returnData.length === 0) {
-      return new GovernanceDelegatedVoteInfo();
+    if (!returnData || !Array.isArray(returnData) || returnData.length < 4) {
+      throw new Error(`Cannot parse governance delegated vote info vm-query response. Return data: ${JSON.stringify(returnData)}`);
     }
 
     return new GovernanceDelegatedVoteInfo({

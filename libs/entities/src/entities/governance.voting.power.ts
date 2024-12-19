@@ -10,8 +10,8 @@ export class GovernanceVotingPower {
 
   static fromVmQueryResponse(queryResponse: any): GovernanceVotingPower {
     const returnData = queryResponse?.data?.data?.returnData;
-    if (!returnData || !Array.isArray(returnData) || returnData.length === 0) {
-      return new GovernanceVotingPower();
+    if (!returnData || !Array.isArray(returnData) || returnData.length < 1) {
+      throw new Error(`Cannot parse governance voting power vm-query response. Return data: ${JSON.stringify(returnData)}`);
     }
 
     return new GovernanceVotingPower({

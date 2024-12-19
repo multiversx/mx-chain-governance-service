@@ -9,11 +9,12 @@ export class VmQueryArguments {
   args?: string[];
 
   static toGatewayBody(args: VmQueryArguments): any {
+    const { contractAddress, functionName, callerAddress, args: functionArgs } = args;
     return {
-      scAddress: args.contractAddress,
-      funcName: args.functionName,
-      caller: args.callerAddress ?? undefined,
-      args: args.args ?? undefined,
+      scAddress: contractAddress,
+      funcName: functionName,
+      caller: callerAddress,
+      args: functionArgs,
     };
   }
 }

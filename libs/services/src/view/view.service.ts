@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { VmQueryService } from '@libs/common/vm-query/vm-query.service';
 import { CacheService } from '@multiversx/sdk-nestjs-cache';
-import { CacheInfo, CommonConfigService } from '@libs/common';
-import { VmQueryArguments } from '@libs/common/vm-query/dtos/vm-query.arguments';
+import { CacheInfo } from '@libs/common';
 import { GovernanceConfig } from '@libs/entities/entities/governance.config';
 import { GovernanceProposal } from '@libs/entities/entities/governance.proposal';
 import { GovernanceDelegatedVoteInfo } from '@libs/entities/entities/governance.delegated.vote.info';
@@ -12,9 +10,7 @@ import { GovernanceVotingPower } from '@libs/entities/entities/governance.voting
 @Injectable()
 export class ViewService {
   constructor(
-    private readonly vmQueryService: VmQueryService,
     private readonly cacheService: CacheService,
-    private readonly commonConfigService: CommonConfigService,
     private readonly governanceContractService: GovernanceContractService,
   ) { }
 
@@ -27,10 +23,7 @@ export class ViewService {
   }
 
   async getGovernanceConfigRaw(): Promise<GovernanceConfig> {
-    const vmQueryResponse = await this.vmQueryService.query(new VmQueryArguments({
-      contractAddress: this.commonConfigService.config.governance.contractAddress,
-      functionName: 'viewConfig',
-    }));
+    const vmQueryResponse = await this.governanceContractService.viewConfig();
 
     return GovernanceConfig.fromVmQueryResponse(vmQueryResponse);
   }

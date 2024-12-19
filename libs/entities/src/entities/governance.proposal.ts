@@ -47,8 +47,8 @@ export class GovernanceProposal {
 
   static fromVmQueryResponse(queryResponse: any): GovernanceProposal {
     const returnData = queryResponse?.data?.data?.returnData;
-    if (!returnData || !Array.isArray(returnData) || returnData.length === 0) {
-      return new GovernanceProposal();
+    if (!returnData || !Array.isArray(returnData) || returnData.length < 12) {
+      throw new Error(`Cannot parse governance proposal vm-query response. Return data: ${JSON.stringify(returnData)}`);
     }
 
     return new GovernanceProposal({
