@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BinaryUtils } from '@multiversx/sdk-nestjs-common';
+import { VmQueryResponse } from '@libs/common/vm-query/dtos/vm-query.response';
 
 export class GovernanceDelegatedVoteInfo {
   constructor(init?: Partial<GovernanceDelegatedVoteInfo>) {
@@ -18,9 +19,9 @@ export class GovernanceDelegatedVoteInfo {
   @ApiProperty({ description: 'The address power of the address.', example: '1000000000000000000' })
   totalPower?: string;
 
-  static fromVmQueryResponse(queryResponse: any): GovernanceDelegatedVoteInfo {
+  static fromVmQueryResponse(queryResponse: VmQueryResponse): GovernanceDelegatedVoteInfo {
     const returnData = queryResponse?.data?.data?.returnData;
-    if (!returnData || !Array.isArray(returnData || returnData.length === 0)) {
+    if (!returnData || !Array.isArray(returnData) || returnData.length === 0) {
       return new GovernanceDelegatedVoteInfo();
     }
 

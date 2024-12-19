@@ -7,16 +7,6 @@ export interface Config {
       privatePort: number;
       useCachingInterceptor: boolean;
     };
-    cacheWarmer: {
-      port: number;
-    };
-    queueWorker: {
-      port: number;
-    };
-    transactionsProcessor: {
-      port: number;
-      maxLookBehind: number;
-    };
   };
   libs: {
     common: {
@@ -27,14 +17,6 @@ export interface Config {
       urls: {
         api: string;
         gateway: string;
-      };
-      database: {
-        host: string;
-        port: number;
-        username?: string;
-        password?: string;
-        name: string;
-        tlsAllowInvalidCertificates: boolean;
       };
       redis: {
         host: string;

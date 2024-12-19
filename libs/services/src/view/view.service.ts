@@ -5,8 +5,9 @@ import { CacheInfo, CommonConfigService } from '@libs/common';
 import { VmQueryArguments } from '@libs/common/vm-query/dtos/vm-query.arguments';
 import { GovernanceConfig } from '@libs/entities/entities/governance.config';
 import { GovernanceProposal } from '@libs/entities/entities/governance.proposal';
-import { AddressUtils, BinaryUtils } from '@multiversx/sdk-nestjs-common';
 import { GovernanceDelegatedVoteInfo } from '@libs/entities/entities/governance.delegated.vote.info';
+import { GovernanceContractService } from '../contracts/governance/governance.contract.service';
+import { GovernanceVotingPower } from '@libs/entities/entities/governance.voting.power';
 
 @Injectable()
 export class ViewService {
@@ -14,6 +15,7 @@ export class ViewService {
     private readonly vmQueryService: VmQueryService,
     private readonly cacheService: CacheService,
     private readonly commonConfigService: CommonConfigService,
+    private readonly governanceContractService: GovernanceContractService,
   ) { }
 
   async getGovernanceConfig(): Promise<GovernanceConfig> {
@@ -62,16 +64,12 @@ export class ViewService {
   }
 
   async getProposalDetailsRaw(proposalNonce: number): Promise<GovernanceProposal> {
-    const vmQueryResponse = await this.vmQueryService.query(new VmQueryArguments({
-      contractAddress: this.commonConfigService.config.governance.contractAddress,
-      functionName: 'viewProposal',
-      args: [BinaryUtils.numberToHex(proposalNonce)],
-    }));
+    const vmQueryResponse = await this.governanceContractService.viewProposal(proposalNonce);
 
     return GovernanceProposal.fromVmQueryResponse(vmQueryResponse);
   }
 
-  async getAddressVotingPower(address: string): Promise<any> {
+  async getAddressVotingPower(address: string): Promise<GovernanceVotingPower> {
     return await this.cacheService.getOrSet(
       CacheInfo.GovernanceAddressVotingPower(address).key,
       async () => await this.getAddressVotingPowerRaw(address),
@@ -79,18 +77,10 @@ export class ViewService {
     );
   }
 
-  async getAddressVotingPowerRaw(address: string): Promise<string> {
-    const vmQueryResponse = await this.vmQueryService.query(new VmQueryArguments({
-      contractAddress: this.commonConfigService.config.governance.contractAddress,
-      functionName: 'viewVotingPower',
-      args: [AddressUtils.bech32Decode(address)],
-    }));
+  async getAddressVotingPowerRaw(address: string): Promise<GovernanceVotingPower> {
+    const vmQueryResponse = await this.governanceContractService.viewVotingPower(address);
 
-    const returnData = vmQueryResponse?.data?.data?.returnData;
-    if (!Array.isArray(returnData) || returnData.length === 0) {
-      return '0';
-    }
-    return BinaryUtils.base64Decode(returnData[0]);
+    return GovernanceVotingPower.fromVmQueryResponse(vmQueryResponse);
   }
 
   async getDelegatedVotingInfo(address: string, delegatedAddress: string): Promise<any> {
@@ -102,11 +92,7 @@ export class ViewService {
   }
 
   async getDelegatedVotingInfoRaw(address: string, delegatedAddress: string): Promise<GovernanceDelegatedVoteInfo> {
-    const vmQueryResponse = await this.vmQueryService.query(new VmQueryArguments({
-      contractAddress: this.commonConfigService.config.governance.contractAddress,
-      functionName: 'viewDelegatedVoteInfo',
-      args: [AddressUtils.bech32Decode(address), AddressUtils.bech32Decode(delegatedAddress)],
-    }));
+    const vmQueryResponse = await this.governanceContractService.viewDelegatedVoteInfo(address, delegatedAddress);
 
     return GovernanceDelegatedVoteInfo.fromVmQueryResponse(vmQueryResponse);
   }

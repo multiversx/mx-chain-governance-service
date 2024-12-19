@@ -47,7 +47,7 @@ export class GovernanceProposal {
 
   static fromVmQueryResponse(queryResponse: any): GovernanceProposal {
     const returnData = queryResponse?.data?.data?.returnData;
-    if (!returnData || !Array.isArray(returnData || returnData.length === 0)) {
+    if (!returnData || !Array.isArray(returnData) || returnData.length === 0) {
       return new GovernanceProposal();
     }
 

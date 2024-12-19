@@ -104,6 +104,10 @@ module.exports = {
         {
           from: 'libs/common',
           allow: ['libs/entities']
+        },
+        {
+          from: 'libs/entities',
+          allow: ['libs/common']
         }
       ]
     }],
