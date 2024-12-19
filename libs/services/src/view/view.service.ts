@@ -35,7 +35,7 @@ export class ViewService {
     return GovernanceConfig.fromVmQueryResponse(vmQueryResponse);
   }
 
-  async getProposals(from: number, to: number): Promise<any> {
+  async getProposals(from: number, to: number): Promise<GovernanceProposal[]> {
     const proposals = await this.cacheService.getOrSet(
       CacheInfo.GovernanceProposals.key,
       async () => await this.getProposalsRaw(),
@@ -83,7 +83,7 @@ export class ViewService {
     return GovernanceVotingPower.fromVmQueryResponse(vmQueryResponse);
   }
 
-  async getDelegatedVotingInfo(address: string, delegatedAddress: string): Promise<any> {
+  async getDelegatedVotingInfo(address: string, delegatedAddress: string): Promise<GovernanceDelegatedVoteInfo> {
     return await this.cacheService.getOrSet(
       CacheInfo.GovernanceDelegatedAddressVotingPower(address, delegatedAddress).key,
       async () => await this.getDelegatedVotingInfoRaw(address, delegatedAddress),

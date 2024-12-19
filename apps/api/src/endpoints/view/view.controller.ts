@@ -2,6 +2,9 @@ import { Controller, DefaultValuePipe, Get, Param, Query } from '@nestjs/common'
 import { ViewService } from '@libs/services/view/view.service';
 import { ParseAddressPipe, ParseIntPipe } from '@multiversx/sdk-nestjs-common';
 import { ApiQuery } from '@nestjs/swagger';
+import { GovernanceProposal } from '@libs/entities/entities/governance.proposal';
+import { GovernanceVotingPower } from '@libs/entities/entities/governance.voting.power';
+import { GovernanceDelegatedVoteInfo } from '@libs/entities/entities/governance.delegated.vote.info';
 
 @Controller()
 export class ViewController {
@@ -20,7 +23,7 @@ export class ViewController {
   async getGovernanceProposals(
     @Query('from', new DefaultValuePipe(0), ParseIntPipe) from: number,
     @Query('size', new DefaultValuePipe(25), ParseIntPipe) size: number,
-  ): Promise<any> {
+  ): Promise<GovernanceProposal[]> {
     return await this.viewService.getProposals(from, size);
   }
 
@@ -28,7 +31,7 @@ export class ViewController {
   @ApiQuery({ name: 'nonce', description: 'The proposal\'s nonce', required: false })
   async getGovernanceProposal(
     @Param('nonce', ParseIntPipe) nonce: number,
-  ): Promise<any> {
+  ): Promise<GovernanceProposal> {
     return await this.viewService.getProposalDetails(nonce);
   }
 
@@ -36,7 +39,7 @@ export class ViewController {
   @ApiQuery({ name: 'address', description: 'The address to fetch the voting power for', required: false })
   async getVotingPower(
     @Param('address', ParseAddressPipe) address: string,
-  ): Promise<any> {
+  ): Promise<GovernanceVotingPower> {
     return await this.viewService.getAddressVotingPower(address);
   }
 
@@ -46,7 +49,7 @@ export class ViewController {
   async getDelegatedVotingPower(
     @Param('address', ParseAddressPipe) address: string,
     @Param('delegatedAddress', ParseAddressPipe) delegatedAddress: string,
-  ): Promise<any> {
+  ): Promise<GovernanceDelegatedVoteInfo> {
     return await this.viewService.getDelegatedVotingInfo(address, delegatedAddress);
   }
 }
