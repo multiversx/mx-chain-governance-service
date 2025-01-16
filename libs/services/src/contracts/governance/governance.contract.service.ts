@@ -3,7 +3,9 @@ import { CommonConfigService } from '@libs/common';
 import { VmQueryArguments } from '@libs/common/vm-query/dtos/vm-query.arguments';
 import { AddressUtils, BinaryUtils } from '@multiversx/sdk-nestjs-common';
 import { VmQueryResponse } from '@libs/common/vm-query/dtos/vm-query.response';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class GovernanceContractService {
   constructor(
     private readonly commonConfigService: CommonConfigService,

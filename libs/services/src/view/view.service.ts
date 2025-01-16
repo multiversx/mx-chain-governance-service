@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CacheService } from '@multiversx/sdk-nestjs-cache';
 import { CacheInfo } from '@libs/common';
 import { GovernanceConfig } from '@libs/entities/entities/governance.config';
@@ -58,6 +58,9 @@ export class ViewService {
 
   async getProposalDetailsRaw(proposalNonce: number): Promise<GovernanceProposal> {
     const vmQueryResponse = await this.governanceContractService.viewProposal(proposalNonce);
+    if (!vmQueryResponse) {
+      throw new BadRequestException('Proposal not found');
+    }
 
     return GovernanceProposal.fromVmQueryResponse(vmQueryResponse);
   }
