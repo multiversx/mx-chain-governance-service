@@ -18,7 +18,7 @@
     "nest-start": "sh -c 'nest start $NODE_APP $( [ \"$NODE_WATCH\" = \"true\" ] && echo \"--watch\" ) $( [ \"$NODE_DEBUG\" = \"true\" ] && echo \"--debug\" )'",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest --passWithNoTests --config ./libs/services/src/test/jest.common.config.json",
+    "test": "jest --passWithNoTests",
     "test:e2e": "jest e2e-tests/chain-simulator-e2e",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -125,7 +125,11 @@
     "testEnvironment": "node",
     "moduleNameMapper": {
       "^@libs/common(|/.*)$": "<rootDir>/libs/common/src/$1",
-      "^@libs/common": "<rootDir>/libs/common"
+      "^@libs/common": "<rootDir>/libs/common",
+      "^@libs/entities(|/.*)$": "<rootDir>/libs/entities/src/$1",
+      "^@libs/entities": "<rootDir>/libs/entities",
+      "^@libs/services(|/.*)$": "<rootDir>/libs/services/src/$1",
+      "^@libs/services": "<rootDir>/libs/services"
     }
   }
 }

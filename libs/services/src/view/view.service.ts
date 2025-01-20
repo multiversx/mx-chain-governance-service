@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CacheService } from '@multiversx/sdk-nestjs-cache';
 import { CacheInfo } from '@libs/common';
-import { GovernanceConfig } from '@libs/entities/entities/governance.config';
-import { GovernanceProposal } from '@libs/entities/entities/governance.proposal';
-import { GovernanceDelegatedVoteInfo } from '@libs/entities/entities/governance.delegated.vote.info';
+import { GovernanceConfig } from '@libs/entities/governance.config';
+import { GovernanceProposal } from '@libs/entities/governance.proposal';
+import { GovernanceDelegatedVoteInfo } from '@libs/entities/governance.delegated.vote.info';
 import { GovernanceContractService } from '../contracts/governance/governance.contract.service';
-import { GovernanceVotingPower } from '@libs/entities/entities/governance.voting.power';
+import { GovernanceVotingPower } from '@libs/entities/governance.voting.power';
 
 @Injectable()
 export class ViewService {

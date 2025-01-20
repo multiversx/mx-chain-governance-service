@@ -1,7 +1,7 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from '@nestjs/common';
 import { AddressUtils } from '@multiversx/sdk-nestjs-common';
-import { VoteOption } from '@libs/entities/entities/vote.option';
-import { GovernanceDelegateVoteRequest } from '@libs/entities/entities/governance.delegate.vote.request';
+import { VoteOption } from '@libs/entities/vote.option';
+import { GovernanceDelegateVoteRequest } from '@libs/entities/governance.delegate.vote.request';
 
 export class DelegateVoteValidationPipe implements PipeTransform<GovernanceDelegateVoteRequest | undefined, Promise<GovernanceDelegateVoteRequest | undefined>> {
   transform(value: GovernanceDelegateVoteRequest | undefined, _metadata: ArgumentMetadata): Promise<GovernanceDelegateVoteRequest> {

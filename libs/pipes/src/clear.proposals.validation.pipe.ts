@@ -1,6 +1,6 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from '@nestjs/common';
 import { AddressUtils } from '@multiversx/sdk-nestjs-common';
-import { GovernanceClearProposalsRequest } from '@libs/entities/entities/governance.clear.proposals.request';
+import { GovernanceClearProposalsRequest } from '@libs/entities/governance.clear.proposals.request';
 
 export class ClearProposalsValidationPipe implements PipeTransform<GovernanceClearProposalsRequest | undefined, Promise<GovernanceClearProposalsRequest | undefined>> {
   transform(value: GovernanceClearProposalsRequest | undefined, _metadata: ArgumentMetadata): Promise<GovernanceClearProposalsRequest> {

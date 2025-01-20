@@ -1,6 +1,6 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from '@nestjs/common';
 import { AddressUtils } from '@multiversx/sdk-nestjs-common';
-import { GovernanceChangeConfigRequest } from '@libs/entities/entities/governance.change.config.request';
+import { GovernanceChangeConfigRequest } from '@libs/entities/governance.change.config.request';
 
 export class ChangeConfigValidationPipe implements PipeTransform<GovernanceChangeConfigRequest | undefined, Promise<GovernanceChangeConfigRequest | undefined>> {
   transform(value: GovernanceChangeConfigRequest | undefined, _metadata: ArgumentMetadata): Promise<GovernanceChangeConfigRequest> {

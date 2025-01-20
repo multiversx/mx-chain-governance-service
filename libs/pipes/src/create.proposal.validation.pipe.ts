@@ -1,5 +1,5 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from '@nestjs/common';
-import { GovernanceCreateProposalRequest } from '@libs/entities/entities/governance.create.proposal.request';
+import { GovernanceCreateProposalRequest } from '@libs/entities/governance.create.proposal.request';
 import { AddressUtils } from '@multiversx/sdk-nestjs-common';
 
 export class CreateProposalValidationPipe implements PipeTransform<GovernanceCreateProposalRequest | undefined, Promise<GovernanceCreateProposalRequest | undefined>> {

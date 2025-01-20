@@ -83,7 +83,7 @@ module.exports = {
       rules: [
         {
           from: 'apps/api',
-          allow: ['libs/common', 'libs/entities', 'libs/services']
+          allow: ['libs/common', 'libs/entities', 'libs/services', 'libs/pipes']
         },
         {
           from: 'apps/cache-warmer',

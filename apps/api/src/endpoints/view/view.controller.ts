@@ -2,9 +2,9 @@ import { Controller, DefaultValuePipe, Get, Param, Query } from '@nestjs/common'
 import { ViewService } from '@libs/services/view/view.service';
 import { ParseAddressPipe, ParseIntPipe } from '@multiversx/sdk-nestjs-common';
 import { ApiParam, ApiQuery } from '@nestjs/swagger';
-import { GovernanceProposal } from '@libs/entities/entities/governance.proposal';
-import { GovernanceVotingPower } from '@libs/entities/entities/governance.voting.power';
-import { GovernanceDelegatedVoteInfo } from '@libs/entities/entities/governance.delegated.vote.info';
+import { GovernanceProposal } from '@libs/entities/governance.proposal';
+import { GovernanceVotingPower } from '@libs/entities/governance.voting.power';
+import { GovernanceDelegatedVoteInfo } from '@libs/entities/governance.delegated.vote.info';
 import { GovernanceConfig } from '@libs/entities';
 
 @Controller()

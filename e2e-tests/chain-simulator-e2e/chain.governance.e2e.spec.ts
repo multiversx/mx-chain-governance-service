@@ -9,7 +9,8 @@ const BOB_ADDRESS = 'erd1spyavw0956vq68xj8y4tenjpq2wd5a9p2c6j8gsz7ztyrnpxrruqzu6
 const GOVERNANCE_OWNER = 'erd1vxy22x0fj4zv6hktmydg8vpfh6euv02cz4yg0aaws6rrad5a5awqgqky80';
 const CHAIN_GOVERNANCE_SERVICE_URL = 'http://localhost:3000';
 
-describe('Chain Governance e2e tests with chain simulator', () => {
+// This should be enabled when we have an official Docker release of a chain simulator that supports chain governance
+describe.skip('Chain Governance e2e tests with chain simulator', () => {
   beforeAll(async () => {
     try {
       const response = await axios.get(`${CHAIN_SIMULATOR_URL}/simulator/observers`);

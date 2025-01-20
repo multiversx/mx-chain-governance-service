@@ -1,6 +1,6 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from '@nestjs/common';
 import { AddressUtils } from '@multiversx/sdk-nestjs-common';
-import { GovernanceCloseProposalRequest } from '@libs/entities/entities/governance.close.proposal.request';
+import { GovernanceCloseProposalRequest } from '@libs/entities/governance.close.proposal.request';
 
 export class CloseProposalValidationPipe implements PipeTransform<GovernanceCloseProposalRequest | undefined, Promise<GovernanceCloseProposalRequest | undefined>> {
   transform(value: GovernanceCloseProposalRequest | undefined, _metadata: ArgumentMetadata): Promise<GovernanceCloseProposalRequest> {

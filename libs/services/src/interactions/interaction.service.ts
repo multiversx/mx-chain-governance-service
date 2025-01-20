@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { GovernanceCreateProposalRequest } from '@libs/entities/entities/governance.create.proposal.request';
-import { TransactionDetails } from '@libs/entities/entities/transaction.details';
+import { GovernanceCreateProposalRequest } from '@libs/entities/governance.create.proposal.request';
 import { Address, AddressValue, BigUIntValue, SmartContractTransactionsFactory, StringValue, TransactionsFactoryConfig, U32Value } from '@multiversx/sdk-core/out';
 import { CommonConfigService } from '@libs/common';
-import { GovernanceVoteRequest } from '@libs/entities/entities/governance.vote.request';
-import { GovernanceDelegateVoteRequest } from '@libs/entities/entities/governance.delegate.vote.request';
-import { GovernanceCloseProposalRequest } from '@libs/entities/entities/governance.close.proposal.request';
-import { GovernanceClearProposalsRequest } from '@libs/entities/entities/governance.clear.proposals.request';
-import { GovernanceChangeConfigRequest } from '@libs/entities/entities/governance.change.config.request';
+import { GovernanceVoteRequest } from '@libs/entities/governance.vote.request';
+import { GovernanceDelegateVoteRequest } from '@libs/entities/governance.delegate.vote.request';
+import { GovernanceCloseProposalRequest } from '@libs/entities/governance.close.proposal.request';
+import { GovernanceClearProposalsRequest } from '@libs/entities/governance.clear.proposals.request';
+import { GovernanceChangeConfigRequest } from '@libs/entities/governance.change.config.request';
+import { TransactionDetails } from '@libs/entities/transaction.details';
 import { ViewService } from '../view/view.service';
 
 @Injectable()

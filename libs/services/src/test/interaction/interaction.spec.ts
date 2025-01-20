@@ -1,10 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommonConfigService } from '@libs/common';
 import { InteractionService } from '../../interactions';
-import { GovernanceCreateProposalRequest } from '@libs/entities/entities/governance.create.proposal.request';
+import { GovernanceCreateProposalRequest } from '@libs/entities/governance.create.proposal.request';
+import { ViewService } from '@libs/services/view';
+import { GovernanceConfig } from '@libs/entities';
 
 describe('InteractionService', () => {
   let service: InteractionService;
+  let viewService: ViewService;
 
   const mockCommonConfigService = {
     config: {
@@ -22,10 +25,17 @@ describe('InteractionService', () => {
           provide: CommonConfigService,
           useValue: mockCommonConfigService,
         },
+        {
+          provide: ViewService,
+          useValue: {
+            getGovernanceConfig: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<InteractionService>(InteractionService);
+    viewService = module.get<ViewService>(ViewService);
   });
 
   afterEach(() => {
@@ -37,7 +47,7 @@ describe('InteractionService', () => {
   });
 
   describe('createProposal', () => {
-    it('should return transaction details for a proposal creation request', () => {
+    it('should return transaction details for a proposal creation request',  async() => {
       const request = new GovernanceCreateProposalRequest({
         sender: 'erd1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssycr6th',
         commitHash: '54bce4bb3ac2cb0d38aa265c9a9fd05b8680bedd',
@@ -45,7 +55,8 @@ describe('InteractionService', () => {
         endEpoch: 11,
       });
 
-      const transaction = service.createProposal(request);
+      jest.spyOn(viewService, 'getGovernanceConfig').mockResolvedValue(new GovernanceConfig({proposalFee: '1'}));
+      const transaction = await service.createProposal(request);
       expect(transaction).toMatchObject({
         'sender': 'erd1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssycr6th',
         'receiver': 'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrlllsrujgla',
