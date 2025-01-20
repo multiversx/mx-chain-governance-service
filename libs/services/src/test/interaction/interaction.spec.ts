@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CommonConfigService } from '@libs/common';
 import { InteractionService } from '../../interactions';
 import { GovernanceCreateProposalRequest } from '@libs/entities/governance.create.proposal.request';
+// eslint-disable-next-line no-restricted-imports
 import { ViewService } from '@libs/services/view';
 import { GovernanceConfig } from '@libs/entities';
 
