@@ -58,7 +58,7 @@ export class GovernanceProposal {
       issuerAddress: BinaryUtils.base64ToAddress(returnData[3]),
       startVoteEpoch: parseInt(BinaryUtils.base64ToBigInt(returnData[4]).toString()),
       endVoteEpoch: parseInt(BinaryUtils.base64ToBigInt(returnData[5]).toString()),
-      quorumStake: BinaryUtils.base64Decode(returnData[6]),
+      quorumStake: BinaryUtils.base64ToBigInt(returnData[6]).toString(10),
       yes: BinaryUtils.base64ToBigInt(returnData[7]).toString(),
       no: BinaryUtils.base64ToBigInt(returnData[8]).toString(),
       veto: BinaryUtils.base64ToBigInt(returnData[9]).toString(),
