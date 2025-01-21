@@ -14,10 +14,13 @@ import { DelegateVoteValidationPipe } from '@libs/pipes/delegate.vote.validation
 import { CloseProposalValidationPipe } from '@libs/pipes/close.proposal.validation.pipe';
 import { ClearProposalsValidationPipe } from '@libs/pipes/clear.proposals.validation.pipe';
 import { ChangeConfigValidationPipe } from '@libs/pipes/change.config.validation.pipe';
+import { OriginLogger } from '@multiversx/sdk-nestjs-common';
 
 @ApiTags('interactions')
 @Controller('interactions')
 export class InteractionController {
+  private readonly logger = new OriginLogger(InteractionController.name);
+
   constructor(private readonly interactionService: InteractionService) { }
 
   @Post('/proposals')
@@ -25,7 +28,12 @@ export class InteractionController {
   async createProposal(
     @Body(new CreateProposalValidationPipe()) createProposalRequest: GovernanceCreateProposalRequest,
   ): Promise<TransactionDetails> {
-    return await this.interactionService.createProposal(createProposalRequest);
+    try {
+      return await this.interactionService.createProposal(createProposalRequest);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Post('/vote')
@@ -33,7 +41,12 @@ export class InteractionController {
   vote(
     @Body(new VoteValidationPipe()) request: GovernanceVoteRequest,
   ): TransactionDetails {
-    return this.interactionService.vote(request);
+    try {
+      return this.interactionService.vote(request);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Post('/delegate-vote')
@@ -41,7 +54,12 @@ export class InteractionController {
   delegateVote(
     @Body(new DelegateVoteValidationPipe()) request: GovernanceDelegateVoteRequest,
   ): TransactionDetails {
-    return this.interactionService.delegateVote(request);
+    try {
+      return this.interactionService.delegateVote(request);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Post('/close-proposal')
@@ -49,7 +67,12 @@ export class InteractionController {
   closeProposal(
     @Body(new CloseProposalValidationPipe()) request: GovernanceCloseProposalRequest,
   ): TransactionDetails {
-    return this.interactionService.closeProposal(request);
+    try {
+      return this.interactionService.closeProposal(request);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Post('/clear-ended-proposals')
@@ -57,7 +80,12 @@ export class InteractionController {
   clearEndedProposals(
     @Body(new ClearProposalsValidationPipe()) request: GovernanceClearProposalsRequest,
   ): TransactionDetails {
-    return this.interactionService.clearEndedProposals(request);
+    try {
+      return this.interactionService.clearEndedProposals(request);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Post('/change-config')
@@ -65,6 +93,11 @@ export class InteractionController {
   changeConfig(
     @Body(new ChangeConfigValidationPipe()) request: GovernanceChangeConfigRequest,
   ): TransactionDetails {
-    return this.interactionService.changeConfig(request);
+    try {
+      return this.interactionService.changeConfig(request);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 }

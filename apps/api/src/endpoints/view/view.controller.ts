@@ -1,6 +1,6 @@
 import { Controller, DefaultValuePipe, Get, Param, Query } from '@nestjs/common';
 import { ViewService } from '@libs/services/view/view.service';
-import { ParseAddressPipe, ParseIntPipe } from '@multiversx/sdk-nestjs-common';
+import { OriginLogger, ParseAddressPipe, ParseIntPipe } from '@multiversx/sdk-nestjs-common';
 import { ApiParam, ApiQuery } from '@nestjs/swagger';
 import { GovernanceProposal } from '@libs/entities/governance.proposal';
 import { GovernanceVotingPower } from '@libs/entities/governance.voting.power';
@@ -9,13 +9,20 @@ import { GovernanceConfig } from '@libs/entities';
 
 @Controller()
 export class ViewController {
+  private readonly logger = new OriginLogger(ViewController.name);
+
   constructor(
     private readonly viewService: ViewService,
   ) { }
 
   @Get('/governance-config')
   async getGovernanceConfig(): Promise<GovernanceConfig> {
-    return await this.viewService.getGovernanceConfig();
+    try {
+      return await this.viewService.getGovernanceConfig();
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Get('/proposals')
@@ -25,7 +32,12 @@ export class ViewController {
     @Query('from', new DefaultValuePipe(0), ParseIntPipe) from: number,
     @Query('size', new DefaultValuePipe(25), ParseIntPipe) size: number,
   ): Promise<GovernanceProposal[]> {
-    return await this.viewService.getProposals(from, size);
+    try {
+      return await this.viewService.getProposals(from, size);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Get('/proposals/:nonce')
@@ -33,7 +45,12 @@ export class ViewController {
   async getGovernanceProposal(
     @Param('nonce', ParseIntPipe) nonce: number,
   ): Promise<GovernanceProposal> {
-    return await this.viewService.getProposalDetails(nonce);
+    try {
+      return await this.viewService.getProposalDetails(nonce);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Get('/voting-power/:address')
@@ -41,7 +58,12 @@ export class ViewController {
   async getVotingPower(
     @Param('address', ParseAddressPipe) address: string,
   ): Promise<GovernanceVotingPower> {
-    return await this.viewService.getAddressVotingPower(address);
+    try {
+      return await this.viewService.getAddressVotingPower(address);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 
   @Get('/delegated-voting-info/:address/:delegatedAddress')
@@ -51,6 +73,11 @@ export class ViewController {
     @Param('address', ParseAddressPipe) address: string,
     @Param('delegatedAddress', ParseAddressPipe) delegatedAddress: string,
   ): Promise<GovernanceDelegatedVoteInfo> {
-    return await this.viewService.getDelegatedVotingInfo(address, delegatedAddress);
+    try {
+      return await this.viewService.getDelegatedVotingInfo(address, delegatedAddress);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 }
