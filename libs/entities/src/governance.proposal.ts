@@ -24,7 +24,7 @@ export class GovernanceProposal {
   @ApiProperty({ description: 'The epoch when the vote will end.', example: 1522 })
   endVoteEpoch?: number;
 
-  @ApiProperty({ description: 'The stake of the quorum.' })
+  @ApiProperty({ description: 'The stake of the quorum.', example: '3000000000000000000' })
   quorumStake?: string;
 
   @ApiProperty({ description: 'The accumulated voting power for the \'yes\' option.', example: '1000000000000000000' })
