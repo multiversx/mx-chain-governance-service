@@ -24,7 +24,7 @@ export class GovernanceProposal {
   @ApiProperty({ description: 'The epoch when the vote will end.', example: 1522 })
   endVoteEpoch?: number;
 
-  @ApiProperty({ description: 'The stake of the quorum.' })
+  @ApiProperty({ description: 'The stake of the quorum.', example: '3000000000000000000' })
   quorumStake?: string;
 
   @ApiProperty({ description: 'The accumulated voting power for the \'yes\' option.', example: '1000000000000000000' })
@@ -52,18 +52,19 @@ export class GovernanceProposal {
     }
 
     return new GovernanceProposal({
-      proposalCost: BinaryUtils.base64Decode(returnData[0]),
+      proposalCost: BinaryUtils.base64ToBigInt(returnData[0]).toString(10),
       commitHash: BinaryUtils.base64Decode(returnData[1]),
-      proposalNonce: parseInt(BinaryUtils.base64Decode(returnData[2])),
-      startVoteEpoch: parseInt(BinaryUtils.base64Decode(returnData[3])),
-      endVoteEpoch: parseInt(BinaryUtils.base64Decode(returnData[4])),
-      quorumStake: BinaryUtils.base64Decode(returnData[5]),
-      yes: BinaryUtils.base64Decode(returnData[6]),
-      no: BinaryUtils.base64Decode(returnData[7]),
-      veto: BinaryUtils.base64Decode(returnData[8]),
-      abstain: BinaryUtils.base64Decode(returnData[9]),
-      closed: BinaryUtils.base64Decode(returnData[10]) === 'true',
-      passed: BinaryUtils.base64Decode(returnData[11]) === 'true',
+      proposalNonce: parseInt(BinaryUtils.base64ToBigInt(returnData[2]).toString()),
+      issuerAddress: BinaryUtils.base64ToAddress(returnData[3]),
+      startVoteEpoch: parseInt(BinaryUtils.base64ToBigInt(returnData[4]).toString()),
+      endVoteEpoch: parseInt(BinaryUtils.base64ToBigInt(returnData[5]).toString()),
+      quorumStake: BinaryUtils.base64ToBigInt(returnData[6]).toString(10),
+      yes: BinaryUtils.base64ToBigInt(returnData[7]).toString(),
+      no: BinaryUtils.base64ToBigInt(returnData[8]).toString(),
+      veto: BinaryUtils.base64ToBigInt(returnData[9]).toString(),
+      abstain: BinaryUtils.base64ToBigInt(returnData[10]).toString(),
+      closed: BinaryUtils.base64Decode(returnData[11]) === 'true',
+      passed: BinaryUtils.base64Decode(returnData[12]) === 'true',
     });
   }
 }

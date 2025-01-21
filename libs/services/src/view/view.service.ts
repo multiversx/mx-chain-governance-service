@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CacheService } from '@multiversx/sdk-nestjs-cache';
 import { CacheInfo } from '@libs/common';
-import { GovernanceConfig } from '@libs/entities/entities/governance.config';
-import { GovernanceProposal } from '@libs/entities/entities/governance.proposal';
-import { GovernanceDelegatedVoteInfo } from '@libs/entities/entities/governance.delegated.vote.info';
+import { GovernanceConfig } from '@libs/entities/governance.config';
+import { GovernanceProposal } from '@libs/entities/governance.proposal';
+import { GovernanceDelegatedVoteInfo } from '@libs/entities/governance.delegated.vote.info';
 import { GovernanceContractService } from '../contracts/governance/governance.contract.service';
-import { GovernanceVotingPower } from '@libs/entities/entities/governance.voting.power';
+import { GovernanceVotingPower } from '@libs/entities/governance.voting.power';
 
 @Injectable()
 export class ViewService {
@@ -28,20 +28,20 @@ export class ViewService {
     return GovernanceConfig.fromVmQueryResponse(vmQueryResponse);
   }
 
-  async getProposals(from: number, to: number): Promise<GovernanceProposal[]> {
+  async getProposals(from: number, size: number): Promise<GovernanceProposal[]> {
     const proposals = await this.cacheService.getOrSet(
       CacheInfo.GovernanceProposals.key,
       async () => await this.getProposalsRaw(),
       CacheInfo.GovernanceProposals.ttl,
     );
 
-    return proposals.slice(from, to);
+    return proposals.slice(from, from + size);
   }
 
   async getProposalsRaw(): Promise<GovernanceProposal[]> {
     const config = await this.getGovernanceConfig();
     const proposals: GovernanceProposal[] = [];
-    for (let i = 0; i < (config.lastProposalNonce ?? 0); i++) {
+    for (let i = 1; i <= (config.lastProposalNonce ?? 1); i++) {
       proposals.push(await this.getProposalDetails(i));
     }
 
@@ -58,6 +58,9 @@ export class ViewService {
 
   async getProposalDetailsRaw(proposalNonce: number): Promise<GovernanceProposal> {
     const vmQueryResponse = await this.governanceContractService.viewProposal(proposalNonce);
+    if (!vmQueryResponse) {
+      throw new NotFoundException('Proposal not found');
+    }
 
     return GovernanceProposal.fromVmQueryResponse(vmQueryResponse);
   }

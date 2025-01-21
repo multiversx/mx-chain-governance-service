@@ -8,13 +8,10 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "build:all": "nest build api && nest build transactions-processor && nest build cache-warmer && nest build queue-worker && nest build common",
+    "build:all": "nest build api && nest build common",
     "build:infra": "npm run build:all && npm run copy-config-infra",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:api": "cross-env NODE_APP=api npm run start",
-    "start:cache-warmer": "cross-env NODE_APP=cache-warmer npm run start",
-    "start:queue-worker": "cross-env NODE_APP=queue-worker npm run start",
-    "start:transactions-processor": "cross-env NODE_APP=transactions-processor npm run start",
     "start": "npm run copy-config && npm run nest-start",
     "copy-config-infra": "mkdir -p dist/config && cp .multiversx/config/config.yaml dist/config/config.yaml && cp config/schema.yaml dist/config/schema.yaml",
     "copy-config": "mkdir -p ./apps/$NODE_APP/config && cp ./config/config.yaml ./apps/$NODE_APP/config/config.yaml && cp ./config/schema.yaml ./apps/$NODE_APP/config/schema.yaml",
@@ -22,10 +19,10 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest --passWithNoTests",
+    "test:e2e": "jest e2e-tests/chain-simulator-e2e",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/api/test/jest-e2e.json",
     "generate-types": "mxnest schema types config/schema.yaml libs/common/src/entities/config.d.ts"
   },
   "dependencies": {
@@ -116,7 +113,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "apps",
+    "rootDir": "",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -128,7 +125,11 @@
     "testEnvironment": "node",
     "moduleNameMapper": {
       "^@libs/common(|/.*)$": "<rootDir>/libs/common/src/$1",
-      "^@libs/common": "<rootDir>/libs/common"
+      "^@libs/common": "<rootDir>/libs/common",
+      "^@libs/entities(|/.*)$": "<rootDir>/libs/entities/src/$1",
+      "^@libs/entities": "<rootDir>/libs/entities",
+      "^@libs/services(|/.*)$": "<rootDir>/libs/services/src/$1",
+      "^@libs/services": "<rootDir>/libs/services"
     }
   }
 }

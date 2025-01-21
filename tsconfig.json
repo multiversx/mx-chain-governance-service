@@ -50,6 +50,12 @@
       "@libs/entities/*": [
         "libs/entities/src/*"
       ],
+      "@libs/pipes": [
+        "libs/pipes/src"
+      ],
+      "@libs/pipes/*": [
+        "libs/pipes/src/*"
+      ],
       "@libs/database": [
         "libs/database/src"
       ],

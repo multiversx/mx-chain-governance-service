@@ -3,6 +3,7 @@ import { DynamicModuleUtils } from '@libs/common';
 import { ViewService } from './view/view.service';
 import { VmQueryModule } from '@libs/common/vm-query/vm-query.module';
 import { GovernanceContractModule } from './contracts/governance/governance.contract.module';
+import { InteractionService } from './interactions/interaction.service';
 
 @Global()
 @Module({
@@ -13,9 +14,11 @@ import { GovernanceContractModule } from './contracts/governance/governance.cont
   ],
   providers: [
     ViewService,
+    InteractionService,
   ],
   exports: [
     ViewService,
+    InteractionService,
   ],
 })
 
